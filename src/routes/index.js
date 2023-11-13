@@ -1,24 +1,26 @@
-
 import { createDrawerNavigator } from '@react-navigation/drawer'
-import {  View } from 'react-native'
+import { useContext } from 'react';
+import { View } from 'react-native'
+import { RouteContext } from '../context/RouteContext';
 // Páginas
-import Home from '../Pages/Home'
-import AddMesa from '../Pages/AddMesa'
 
 import CustomDrawer from '../components/CustomDrawer';
 
-import { Entypo } from '@expo/vector-icons'
-import { AntDesign } from '@expo/vector-icons'
+// Mockup
+import { homeDrawer, chatDrawer } from '../config/mockupDrawer';
+
 
 const Drawer = createDrawerNavigator();
 
+
 export default function Routes() {
+  const { pageRendered } = useContext(RouteContext);
 
   return (
     <View style={{ flex: 1, backgroundColor: '#202124' }}>
       <Drawer.Navigator
         screenOptions={{
-          drawerPosition: 'right',
+          drawerPosition: 'left',
           headerShown: false,
           drawerType: 'slide',
           overlayColor: 'transparent',
@@ -26,11 +28,11 @@ export default function Routes() {
           drawerStyle: {
             flex: 1,
             backgroundColor: '#202124',
-            // backgroundColor: 'transparent',
+            backgroundColor: 'transparent',
 
             width: '48%',
           },
-          sceneContainerStyle:{
+          sceneContainerStyle: {
             backgroundColor: 'transparent',
           },
 
@@ -51,35 +53,51 @@ export default function Routes() {
         drawerContent={CustomDrawer}
       >
 
+        {pageRendered === "Chat" ? (
 
-        <Drawer.Screen
-          name='Home'
-          component={Home}
-          options={{
-            title: 'Início',
-            drawerIcon: ({ color, focused, size }) => {
-              if (focused) {
-                return <Entypo name='home' color={color} size={size} />
-              }
-              return <Entypo name='home' color='#fff' size={size} />
-            }
-          }}
+          chatDrawer.map((drawerScreen) => (
+            <Drawer.Screen
+              key={drawerScreen.id}
+              name={drawerScreen.name}
+              component={drawerScreen.component}
+              options={{
+                title: drawerScreen.options.title,
+                drawerIcon: ({ focused }) => {
+                  if (focused) {
+                    return drawerScreen.options.iconOnFocus;
+                  }
+                  return drawerScreen.options.iconNotFocus
+                }
+              }}
 
-        />
+            />
+          ))
 
-        <Drawer.Screen
-          name='AddMesa'
-          component={AddMesa}
-          options={{
-            title: 'Adicionar Mesa',
-            drawerIcon: ({ color, focused, size }) => {
-              if (focused) {
-                return <AntDesign name='plus' color={color} size={size} />
-              }
-              return <AntDesign name='plus' color='#fff' size={size} />
-            }
-          }}
-        />
+        ) : (
+
+          homeDrawer.map((drawerScreen) => (
+            <Drawer.Screen
+              key={drawerScreen.id}
+              name={drawerScreen.name}
+              component={drawerScreen.component}
+              options={{
+                title: drawerScreen.options.title,
+                drawerIcon: ({ focused }) => {
+                  if (focused) {
+                    return drawerScreen.options.iconOnFocus;
+                  }
+                  return drawerScreen.options.iconNotFocus
+                }
+              }}
+
+            />
+          ))
+
+        )}
+
+
+
+
       </Drawer.Navigator>
     </View>
   )

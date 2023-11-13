@@ -1,13 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import AnimatedView from '../../components/AnimatedView';
 
-export default function AddMesa() {
+export default function Perfil() {
   return (
     <AnimatedView>
       <View style={styles.container}>
-        <Text>Tela Adicionar Mesa</Text>
-        <Text>Formulario para criar mesa</Text>
+        <Text>Tela de Perfil</Text>
       </View>
     </AnimatedView>
   );
